@@ -1,13 +1,13 @@
 import { JSX } from "react";
-import User from "../dataTypes/user";
+import EventProps from "../../dataTypes/eventProps";
 
-function UserCard({
+function EventCard({
   name,
-  age,
-  university,
-  instruments,
-  genre,
-}: User): JSX.Element {
+  image,
+  description,
+  location,
+  time,
+}: EventProps): JSX.Element {
   return (
     <>
       <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-md border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -19,25 +19,25 @@ function UserCard({
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               {name}
             </h2>
+            <img src={image} />
             <p className="mt-1 text-gray-600 dark:text-gray-300">
-              <span className="font-medium">Age:</span> {age}
+              {description}
             </p>
-            <p className="text-gray-600 dark:text-gray-300">
-              <span className="font-medium">University:</span> {university}
-            </p>
-            <p className="mt-2 text-gray-700 dark:text-gray-400">
-              <span className="font-medium">Instruments:</span>{" "}
-              {instruments.length > 0 ? instruments.join(", ") : "None"}
-            </p>
-            <p className="text-gray-700 dark:text-gray-400">
-              <span className="font-medium">Genres:</span>{" "}
-              {genre.length > 0 ? genre.join(", ") : "None"}
+           
+            <p className="mt-1 text-gray-600 dark:text-gray-300">
+              {location}
+            </p>{" "}
+            <p className="mt-1 text-gray-600 dark:text-gray-300">
+              {time}
             </p>
           </div>
+        </div>
+        <div>
+          <button>Sign Up For Event!</button>
         </div>
       </div>
     </>
   );
 }
 
-export default UserCard;
+export default EventCard;
