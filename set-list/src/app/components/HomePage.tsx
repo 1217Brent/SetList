@@ -1,9 +1,8 @@
 "use client";
 
 import { JSX, useEffect, useState } from "react";
-import app from "../../../firebase";
+import { db } from "../../../firebase";
 import {
-  getFirestore,
   collection,
   getDocs,
   QueryDocumentSnapshot,
@@ -13,6 +12,7 @@ import User from "../dataTypes/user";
 import UserCard from "./Auth/UserCard";
 import EventProps from "../dataTypes/eventProps";
 import EventCard from "./Events/EventCard";
+import fetchUsers from "../hooks/fetchUsers";
 
 type Users = User[];
 type EventPropsList = EventProps[];
@@ -20,20 +20,11 @@ function HomePage(): JSX.Element {
   const [users, setUsers] = useState<Users>([]);
   const [errors, setErrors] = useState<string>("");
   const [events, setEvents] = useState<EventPropsList>([]);
-  const db = getFirestore(app);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchAllUsers = async () => {
       try {
-        const userCollectionRef = collection(db, "User");
-        const querySnapshot = await getDocs(userCollectionRef);
-        //map returns a new array while forEach does not
-        //you usually use map to transform data while forEach is undefined at the end
-        const userList: Users = querySnapshot.docs.map(
-          (document: QueryDocumentSnapshot<DocumentData>) => ({
-            ...(document.data() as User), // this spread operater is spreading the data in each iteration so in each map a new document.data() gets added into the spread of data
-          })
-        );
+        const userList: User[] = await fetchUsers();
         setUsers(userList);
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -41,7 +32,7 @@ function HomePage(): JSX.Element {
       }
     };
 
-    fetchUsers();
+    fetchAllUsers();
   }, [db]); // include db as a dependency
 
   useEffect(() => {

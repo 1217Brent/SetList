@@ -1,6 +1,7 @@
 import EventSignUpProps from "@/app/dataTypes/eventSignUps";
 import { JSX } from "react";
 
+// add check boxes in each card
 function AtendeeCard({name, email, phoneNumber}: EventSignUpProps): JSX.Element {
     return (
         <>

@@ -1,8 +1,7 @@
 import { ChangeEvent, JSX, FormEvent } from "react";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import app from "../../../firebase";
-import { getAuth } from "firebase/auth";
+import { auth } from "../../../../firebase"
 
 interface LoginProps {
     email: string;
@@ -14,8 +13,7 @@ function Login(): JSX.Element {
         email: "",
         password: "",
     });
-    
-    const auth = getAuth(app);
+
     
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

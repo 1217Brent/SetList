@@ -5,5 +5,5 @@ export default interface EventProps {
     image: string;
     description: string;
     location: string;
-    time: Timestamp;
+    time: string; // change this to time later
 }

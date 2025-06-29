@@ -1,22 +1,20 @@
 "use client";
 
 import { ChangeEvent, JSX, FormEvent } from "react";
-import User from "../dataTypes/user";
+import User from "@/app/dataTypes/user";
 import { useState } from "react";
-import app from "../../../firebase";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { db, auth } from "../../../../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import APIResponse from "@/app/dataTypes/errorTypes";
 
 function SignUp(): JSX.Element {
   type Fields = User & { password: string, email: string};
   type Input = Omit<Fields, "id">;
+  type UserType = APIResponse<Input>;
   
-  const auth = getAuth(app);
-  const db = getFirestore(app);
   const router = useRouter();
   
   const [inputFields, setInputFields] = useState<Input>({
@@ -43,13 +41,13 @@ function SignUp(): JSX.Element {
     if (error) setError("");
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<UserType> => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
+    console.log(auth);
     try {
-      // Create user account
+
       const userCredential = await createUserWithEmailAndPassword(
         auth, 
         inputFields.email, 
@@ -57,9 +55,8 @@ function SignUp(): JSX.Element {
       );
       
       console.log("User created:", userCredential.user);
-      
-      // Save user data to Firestore with the user's UID as document ID
-      await setDoc(doc(db, "users", userCredential.user.uid), {
+  
+      await setDoc(doc(db, "User", userCredential.user.uid), {
         name: inputFields.name,
         age: inputFields.age,
         university: inputFields.university,
@@ -67,16 +64,29 @@ function SignUp(): JSX.Element {
         instruments: inputFields.instruments,
       });
       
-      console.log("User data saved to Firestore");
-      
-      // Navigate to home page
-      router.push("/");
+      return {
+        success: true,
+        message: "successfully created a user!",
+        data: inputFields,
+      }
+
       
     } catch (error: any) {
       console.error("Error during sign up:", error);
       setError(error.message || "Failed to create account");
+      return {
+        success: false,
+        message: "could not add document to the firestore database",
+        data: inputFields,
+        error: {
+          type: "firebase_error",
+          reason: error?.message,
+          errorCode: error?.code,
+        }
+      }
     } finally {
       setLoading(false);
+      router.push("/");
     }
   };
 

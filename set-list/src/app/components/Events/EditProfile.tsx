@@ -1,8 +1,8 @@
 import { FormEvent, JSX } from "react";
-import User from "../dataTypes/user";
+import User from "@/app/dataTypes/user";
 import { useState } from "react";
 import { ChangeEvent } from "react";
-import UserProps from "../dataTypes/userProps";
+import UserProps from "@/app/dataTypes/userProps";
 
 function EditProfile({name, age, university, instruments, genre, email}: UserProps): JSX.Element {
     type Input = Omit<User, "id">;
@@ -220,3 +220,5 @@ function EditProfile({name, age, university, instruments, genre, email}: UserPro
         </>
     )
 }
+
+export default EditProfile;
