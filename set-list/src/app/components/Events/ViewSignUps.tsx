@@ -29,7 +29,7 @@ function ViewSignUps(): JSX.Element {
         <>
         <div>
             {allSignUps.map((signup, index) => {
-                <AtendeeCard name={signup.name} email={signup.email} phoneNumber={signup.phoneNumber} />
+                <AtendeeCard key={index} name={signup.name} email={signup.email} phoneNumber={signup.phoneNumber} />
             })}
         </div>
         <button onClick={sendMessage}>Message Selected Atendees!</button>

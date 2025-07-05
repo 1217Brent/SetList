@@ -2,6 +2,7 @@ import { ChangeEvent, JSX, FormEvent } from "react";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../../firebase"
+import APIResponse from "@/app/dataTypes/errorTypes";
 
 interface LoginProps {
     email: string;

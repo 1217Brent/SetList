@@ -16,6 +16,8 @@ import fetchUsers from "../hooks/fetchUsers";
 
 type Users = User[];
 type EventPropsList = EventProps[];
+
+const everiteKey = process.env.API_EVERITE_KEY;
 function HomePage(): JSX.Element {
   const [users, setUsers] = useState<Users>([]);
   const [errors, setErrors] = useState<string>("");

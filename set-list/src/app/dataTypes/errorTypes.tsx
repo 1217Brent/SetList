@@ -21,7 +21,7 @@ interface UnknownError {
 }
 
 interface FirebaseError {
-  type: "database_error";
+  type: "firebase_error";
   reason?: string;
   errorCode?: string;
 }
